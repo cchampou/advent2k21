@@ -9,11 +9,7 @@ import (
 
 func main() {
 	fmt.Println("Program started")
-
 	var binaryValues []string
-	var gamma = ""
-	var epsilon = ""
-
 	file, err := os.OpenFile("input", os.O_RDONLY, os.ModePerm)
 
 	if err != nil {
@@ -28,24 +24,37 @@ func main() {
 		binaryValues = append(binaryValues, line)
 	}
 
-	dataLength := len(binaryValues[0])
-	totalValue := len(binaryValues)
+	gamma := findGamma(binaryValues, 0, "")
+	epsilon := findEpsilon(gamma)
+	fmt.Println(gamma, epsilon)
+}
 
-	for i := 0; i < dataLength; i++ {
-		freq := 0
-		for _, currentBinary := range binaryValues {
-			if currentBinary[i] == '1' {
-				freq++
-			}
-		}
-		if freq > totalValue / 2 {
-			gamma = gamma + "1"
-			epsilon = epsilon + "0"
-		} else {
-			gamma = gamma + "0"
-			epsilon = epsilon + "1"
+func findGamma(table []string, index int, currentValue string) string {
+	if index > len(table[0]) - 1 {
+		return currentValue
+	}
+	totalValue := len(table)
+	freq := 0
+	for _, currentBinary := range table {
+		if currentBinary[index] == '1' {
+			freq++
 		}
 	}
-	fmt.Println(gamma, epsilon)
+	if freq > totalValue / 2 {
+		return findGamma(table, index + 1, currentValue + "1")
+	} else {
+		return findGamma(table, index + 1, currentValue + "0")
+	}
+}
 
+func findEpsilon(gamma string) string  {
+	epsilon := ""
+	for _, currentChar := range gamma {
+		if currentChar == '1' {
+			epsilon += "0"
+		} else {
+			epsilon += "1"
+		}
+	}
+	return epsilon
 }
