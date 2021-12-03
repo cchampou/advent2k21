@@ -1,29 +1,12 @@
 package main
 
 import (
-	"bufio"
+	"../utils"
 	"fmt"
-	"log"
-	"os"
 )
 
 func main() {
-	fmt.Println("Program started")
-	var binaryValues []string
-	file, err := os.OpenFile("input", os.O_RDONLY, os.ModePerm)
-
-	if err != nil {
-		log.Fatalf("Fail to open file")
-		return
-	}
-
-	scanner := bufio.NewScanner(file)
-
-	for scanner.Scan() {
-		line := scanner.Text()
-		binaryValues = append(binaryValues, line)
-	}
-
+	binaryValues := utils.ReadFileInput()
 	gamma := find(binaryValues, 0, '1', '0')
 	epsilon := find(binaryValues, 0, '0', '1')
 	fmt.Println(gamma, epsilon)
@@ -54,8 +37,6 @@ func find(table []string, index int, char uint8, otherChar uint8) string {
 			filter = otherChar
 		}
 	}
-	fmt.Println(freq, totalValue / 2, filter)
-	fmt.Println(filterTable(table, filter, index))
 	return find(filterTable(table, filter, index), index + 1, char, otherChar)
 }
 

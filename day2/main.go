@@ -1,10 +1,8 @@
 package main
 
 import (
-	"bufio"
+	"../utils"
 	"fmt"
-	"log"
-	"os"
 	"strconv"
 	"strings"
 )
@@ -16,26 +14,9 @@ type Position struct {
 }
 
 func main() {
-	fmt.Println("Program started")
-
-	var instructions [][]string
 	var currentPosition = Position{ depth: 0, horizontal: 0 }
 
-	f, err := os.OpenFile("input", os.O_RDONLY, os.ModePerm)
-
-	if err != nil {
-		log.Fatalf("Fail to open the input file")
-		return
-	}
-
-	defer f.Close()
-
-	sc := bufio.NewScanner(f)
-
-	for sc.Scan() {
-		text := sc.Text()
-		instructions = append(instructions, strings.Split(text, " "))
-	}
+	instructions := splitLines(utils.ReadFileInput())
 
 	for _, currentInstruction := range instructions{
 		direction := currentInstruction[0]
@@ -50,6 +31,13 @@ func main() {
 			currentPosition.aim -= value
 		}
 	}
-	fmt.Println(currentPosition)
 	fmt.Println(currentPosition.depth * currentPosition.horizontal)
+}
+
+func splitLines(input []string) [][]string {
+	var output [][]string
+	for _, currentValue := range input {
+		output = append(output, strings.Split(currentValue, " "))
+	}
+	return output
 }

@@ -1,10 +1,9 @@
 package main
 
 import (
-    "bufio"
+    "../utils"
     "fmt"
     "log"
-    "os"
     "strconv"
 )
 
@@ -13,29 +12,9 @@ func getSum(a []int, b int) int {
 }
 
 func main() {
-    var measures []int
+    measures := convertLinesToInt(utils.ReadFileInput())
+
     total := 0
-    f, err := os.OpenFile("input", os.O_RDONLY, os.ModePerm)
-
-    if err != nil {
-        log.Fatalf("Open file errorL %v", err)
-        return
-    }
-
-    defer f.Close()
-
-    sc := bufio.NewScanner(f)
-
-    for sc.Scan() {
-        text := sc.Text()
-        newMeasure, err := strconv.Atoi(text)
-        if err != nil {
-            log.Fatalf("Line could not be converted to number: %v", text)
-            return
-        }
-        measures = append(measures, newMeasure)
-    }
-
     for index, _ := range measures {
         if index > 2 && getSum(measures, index) > getSum(measures, index - 1) {
             total++
@@ -43,4 +22,16 @@ func main() {
     }
 
     fmt.Println(total)
+}
+
+func convertLinesToInt(raw []string) []int {
+    var output []int
+    for _, currentValue := range raw{
+        newMeasure, err := strconv.Atoi(currentValue)
+        if err != nil {
+            log.Fatalf("Line could not be converted to number: %v", currentValue)
+        }
+        output = append(output, newMeasure)
+    }
+    return output
 }
