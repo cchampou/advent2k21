@@ -41,10 +41,18 @@ func find(table []string, index int, char uint8, otherChar uint8) string {
 			freq++
 		}
 	}
-	if freq >= totalValue / 2 {
-		filter = char
+	if char == '0' {
+		if freq > totalValue / 2 {
+			filter = otherChar
+		} else {
+			filter = char
+		}
 	} else {
-		filter = otherChar
+		if freq >= totalValue / 2 {
+			filter = char
+		} else {
+			filter = otherChar
+		}
 	}
 	fmt.Println(freq, totalValue / 2, filter)
 	fmt.Println(filterTable(table, filter, index))
