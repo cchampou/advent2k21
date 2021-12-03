@@ -1,24 +1,23 @@
-package main
+package day2
 
 import (
 	"../utils"
 	"fmt"
 	"strconv"
-	"strings"
 )
 
 type Position struct {
-	depth int
+	depth      int
 	horizontal int
-	aim int
+	aim        int
 }
 
-func main() {
-	var currentPosition = Position{ depth: 0, horizontal: 0 }
+func Run() {
+	var currentPosition = Position{depth: 0, horizontal: 0}
 
-	instructions := splitLines(utils.ReadFileInput())
+	instructions := utils.SplitLines(utils.ReadFileInput("day2/input"))
 
-	for _, currentInstruction := range instructions{
+	for _, currentInstruction := range instructions {
 		direction := currentInstruction[0]
 		value, _ := strconv.Atoi(currentInstruction[1])
 		switch direction {
@@ -32,12 +31,4 @@ func main() {
 		}
 	}
 	fmt.Println(currentPosition.depth * currentPosition.horizontal)
-}
-
-func splitLines(input []string) [][]string {
-	var output [][]string
-	for _, currentValue := range input {
-		output = append(output, strings.Split(currentValue, " "))
-	}
-	return output
 }
