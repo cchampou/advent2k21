@@ -28,8 +28,8 @@ go run . 4
 ```
 *This will execute program for day4, using data in the file `./day4/input`*
 
-## Test
+## Tests
 
 As this project is for educational purpose, without constraints, and as it is not
-intended to be used anywhere in production, there is any many tests as I
+intended to be used anywhere in production, there is as many tests as I
 wish, from none to full coverage.
