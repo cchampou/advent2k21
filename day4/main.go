@@ -3,23 +3,24 @@ package day4
 import (
 	"../utils"
 	"fmt"
-	"os"
 )
 
 func Run() {
 	inputData := utils.ReadFileInput("day4/input")
 	totalCalled := generateCalledNumbers(inputData[0])
 	boards := generateBoards(inputData[2:])
+	var scoreBoard []Score
 
 	for index, _ := range totalCalled {
 		called := totalCalled[:index]
-		for _, currentBoard := range boards {
+		for boardIndex, currentBoard := range boards {
 			if isBoardWinning(called, currentBoard) {
-				fmt.Println(getBoardScore(called, currentBoard))
-				os.Exit(0)
+				scoreBoard = hasWon(scoreBoard, boardIndex, getBoardScore(called, currentBoard))
 			}
 		}
 	}
+	fmt.Println(scoreBoard[0].score)
+	fmt.Println(scoreBoard[len(scoreBoard) - 1].score)
 }
 
 func isBoardWinning(called []int, board [][]int) bool {
