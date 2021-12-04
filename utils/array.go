@@ -18,6 +18,16 @@ func ConvertLinesToInt(raw []string) []int {
 	return output
 }
 
+func RemoveEmptyLines(lines []string) []string {
+	var res []string
+	for _, currentLine := range lines {
+		if len(currentLine) > 0 {
+			res = append(res, currentLine)
+		}
+	}
+	return res
+}
+
 func SplitLines(input []string) [][]string {
 	var output [][]string
 	for _, currentValue := range input {

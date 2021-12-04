@@ -7,7 +7,7 @@ import (
 
 func Run() {
 	inputData := utils.ReadFileInput("day4/input")
-	totalCalled := generateCalledNumbers(inputData[0])
+	totalCalled := GenerateCalledNumbers(inputData[0])
 	boards := generateBoards(inputData[2:])
 	var scoreBoard []Score
 

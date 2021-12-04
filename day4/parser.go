@@ -1,35 +1,18 @@
 package day4
 
 import (
-	"log"
-	"strconv"
+	"../utils"
 	"strings"
 )
 
-func generateCalledNumbers(input string) []int  {
-	var res []int
+func GenerateCalledNumbers(input string) []int  {
 	sepStrings := strings.Split(input, ",")
-	for _, current := range sepStrings {
-		converted, err := strconv.Atoi(current)
-		if err != nil {
-			log.Fatalf("Fail to convert called number %s", current)
-		}
-		res = append(res, converted)
-	}
-	return res
+	return utils.ConvertLinesToInt(utils.RemoveEmptyLines(sepStrings))
 }
 
 func convertLineToInts(line string) []int {
 	var result []int
 	newLineWithStrings := strings.Split(strings.TrimSpace(line), " ")
-	for _, currentValue := range newLineWithStrings {
-		if len(currentValue) > 0 {
-			converted, err := strconv.Atoi(currentValue)
-			if err != nil {
-				log.Fatalf("Exception while converting to int: %s", currentValue)
-			}
-			result = append(result, converted)
-		}
-	}
+	result = utils.ConvertLinesToInt(utils.RemoveEmptyLines(newLineWithStrings))
 	return result
 }
