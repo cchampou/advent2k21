@@ -3,6 +3,7 @@ package day4
 import (
 	"../utils"
 	"fmt"
+	"github.com/thoas/go-funk"
 )
 
 func Run() {
@@ -11,7 +12,7 @@ func Run() {
 	boards := generateBoards(inputData[2:])
 	var scoreBoard []Score
 
-	for index, _ := range totalCalled {
+	for index := range totalCalled {
 		called := totalCalled[:index]
 		for boardIndex, currentBoard := range boards {
 			if isBoardWinning(called, currentBoard) {
@@ -28,7 +29,7 @@ func isBoardWinning(called []int, board [][]int) bool {
 	for _, line := range board {
 		isWinning := true
 		for _, number := range line {
-			if !isNumberCalled(called, number) {
+			if !funk.Contains(called, number) {
 				isWinning = false
 			}
 		}
@@ -40,7 +41,7 @@ func isBoardWinning(called []int, board [][]int) bool {
 	for currentColumnIndex := range board[0] {
 		isWinning := true
 		for currentLineIndex := range board {
-			if !isNumberCalled(called, board[currentLineIndex][currentColumnIndex]) {
+			if !funk.Contains(called, board[currentLineIndex][currentColumnIndex]) {
 				isWinning = false
 			}
 		}
@@ -52,20 +53,11 @@ func isBoardWinning(called []int, board [][]int) bool {
 	return false
 }
 
-func isNumberCalled(called []int, number int) bool {
-	for _, calledNumber := range called {
-		if number == calledNumber {
-			return true
-		}
-	}
-	return false
-}
-
 func getBoardScore(called []int, board [][]int) int {
 	total := 0
 	for _, line := range board {
 		for _, number := range line {
-			if !isNumberCalled(called, number) {
+			if !funk.Contains(called, number) {
 				total += number
 			}
 		}
