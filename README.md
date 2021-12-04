@@ -2,6 +2,10 @@
 
 You can read more about the Advent of Code on the [website](https://adventofcode.com/2021/about).
 
+> ️️⚠️ Don't be tempted to use any code from this repo without understanding it
+> correctly and eventually cover it with tests. I'm not an advanced Go developer
+> and this code is probably not reliant enough.
+
 ## Motivations
 
 There is no language restriction, so I choose to do it Go this year. Reason
@@ -23,3 +27,9 @@ of the day.
 go run . 4
 ```
 *This will execute program for day4, using data in the file `./day4/input`*
+
+## Test
+
+As this project is for educational purpose, without constraints, and as it is not
+intended to be used anywhere in production, there is any many tests as I
+wish, from none to full coverage.
