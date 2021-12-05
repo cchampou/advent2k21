@@ -6,7 +6,11 @@ import (
 )
 
 func Run() {
-	fmt.Println("Hello world")
 	input := utils.ReadFileInput("day5/input")
-	fmt.Println(parseInput(input))
+	parsedData := parseInput(input)
+	vectors := parsedData
+	grid := initGrid(removeDiagonals(vectors))
+	grid = draw(vectors, grid)
+	//printGrid(grid)
+	fmt.Println(countScore(grid))
 }
