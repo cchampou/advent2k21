@@ -11,6 +11,5 @@ func Run() {
 	vectors := parsedData
 	grid := initGrid(vectors)
 	grid = draw(vectors, grid)
-	printGrid(grid)
 	fmt.Println(countScore(grid))
 }

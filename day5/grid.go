@@ -31,8 +31,8 @@ func initGrid(vectors []Vector) Grid {
 			grid.height = currentVector.end.y
 		}
 	}
-	grid.width = grid.width + 3
-	grid.height = grid.height + 4
+	grid.width = grid.width + 2
+	grid.height = grid.height + 2
 	log.Printf("Grid generated with width %d and height %d", grid.width, grid.height)
 
 	return drawEmptyGrid(grid)
@@ -46,9 +46,9 @@ func draw(vectors []Vector, grid Grid) Grid {
 }
 
 func drawVector(vector Vector, grid Grid) Grid {
-	log.Printf("Drawing vector %v", vector)
 	grid = drawPoint(vector.start, drawPoint(vector.end, grid))
 	if vector.start.y == vector.end.y {
+		// horizontal
 		if vector.start.x < vector.end.x {
 			for i := vector.start.x + 1; i < vector.end.x; i++ {
 				grid = drawPoint(Point{x: i, y: vector.start.y}, grid)
@@ -59,6 +59,7 @@ func drawVector(vector Vector, grid Grid) Grid {
 			}
 		}
 	} else if vector.start.x == vector.end.x {
+		// vertical
 		if vector.start.y < vector.end.y {
 			for i := vector.start.y + 1; i < vector.end.y; i++ {
 				grid = drawPoint(Point{x: vector.start.x, y: i}, grid)
@@ -69,47 +70,33 @@ func drawVector(vector Vector, grid Grid) Grid {
 			}
 		}
 	} else {
-		// draw diagonals
-		if vector.start.y < vector.end.y && vector.start.x < vector.end.x {
-			log.Printf("1")
-			for i := vector.start.y + 1; i < vector.end.y; i++ {
-				for j := vector.start.x + 1; j < vector.end.x; j++ {
-					if j - vector.start.x == i {
-						grid = drawPoint(Point{x: j, y: i}, grid)
-					}
+		// diagonal
+		if vector.start.x < vector.end.x {
+			if vector.start.y < vector.end.y {
+				lineLength := vector.end.x - vector.start.x
+				for i := 1; i < lineLength; i++ {
+					grid = drawPoint(Point{x: vector.start.x + i, y: vector.start.y + i}, grid)
+				}
+			} else {
+				lineLength := vector.end.x - vector.start.x
+				for i := 1; i < lineLength; i++ {
+					grid = drawPoint(Point{x: vector.end.x - i, y: vector.end.y + i}, grid)
 				}
 			}
-		} else if vector.start.y < vector.end.y && vector.start.x > vector.end.x {
-			log.Printf("2")
-			for i := vector.start.y + 1; i < vector.end.y; i++ {
-				for j := vector.end.x + 1; j < vector.start.x; j++ {
-					if i + j == vector.start.x {
-						grid = drawPoint(Point{x: j, y: i}, grid)
-					}
+		} else {
+			if vector.start.y < vector.end.y {
+				lineLength := vector.start.x - vector.end.x
+				for i := 1; i < lineLength; i++ {
+					grid = drawPoint(Point{x: vector.end.x + i, y: vector.end.y - i}, grid)
 				}
-			}
-		} else if vector.start.y > vector.end.y && vector.start.x < vector.end.x {
-			log.Printf("3")
-			for i := vector.end.y + 1; i < vector.start.y; i++ {
-				for j := vector.start.x + 1; j < vector.end.x; j++ {
-					if j + i == vector.start.x + vector.start.y {
-						grid = drawPoint(Point{x: j, y: i}, grid)
-					}
-				}
-			}
-		} else if vector.start.y > vector.end.y && vector.start.x > vector.end.x {
-			log.Printf("4")
-			for i := vector.end.y + 1; i < vector.start.y; i++ {
-				for j := vector.end.x + 1; j < vector.start.x; j++ {
-					if j - vector.end.x == i {
-						grid = drawPoint(Point{x: j, y: i}, grid)
-					}
+			} else {
+				lineLength := vector.start.x - vector.end.x
+				for i := 1; i < lineLength; i++ {
+					grid = drawPoint(Point{x: vector.end.x + i, y: vector.end.y + i}, grid)
 				}
 			}
 		}
 	}
-	//printGrid(grid)
-	//fmt.Scanln()
 	return grid
 }
 
