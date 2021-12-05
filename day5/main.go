@@ -8,9 +8,9 @@ import (
 func Run() {
 	input := utils.ReadFileInput("day5/input")
 	parsedData := parseInput(input)
-	vectors := parsedData
-	grid := initGrid(removeDiagonals(vectors))
+	vectors := removeDiagonals(parsedData)
+	grid := initGrid(vectors)
 	grid = draw(vectors, grid)
-	//printGrid(grid)
+	printGrid(grid)
 	fmt.Println(countScore(grid))
 }

@@ -46,6 +46,7 @@ func draw(vectors []Vector, grid Grid) Grid {
 }
 
 func drawVector(vector Vector, grid Grid) Grid {
+	log.Printf("Drawing vector %v", vector)
 	grid = drawPoint(vector.start, drawPoint(vector.end, grid))
 	if vector.start.y == vector.end.y {
 		if vector.start.x < vector.end.x {
@@ -68,6 +69,8 @@ func drawVector(vector Vector, grid Grid) Grid {
 			}
 		}
 	}
+	printGrid(grid)
+	fmt.Scanln()
 	return grid
 }
 
