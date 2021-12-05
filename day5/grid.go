@@ -32,7 +32,7 @@ func initGrid(vectors []Vector) Grid {
 		}
 	}
 	grid.width = grid.width + 3
-	grid.height = grid.height + 3
+	grid.height = grid.height + 4
 	log.Printf("Grid generated with width %d and height %d", grid.width, grid.height)
 
 	return drawEmptyGrid(grid)
@@ -58,7 +58,7 @@ func drawVector(vector Vector, grid Grid) Grid {
 				grid = drawPoint(Point{x: i, y: vector.start.y}, grid)
 			}
 		}
-	} else {
+	} else if vector.start.x == vector.end.x {
 		if vector.start.y < vector.end.y {
 			for i := vector.start.y + 1; i < vector.end.y; i++ {
 				grid = drawPoint(Point{x: vector.start.x, y: i}, grid)
@@ -68,9 +68,48 @@ func drawVector(vector Vector, grid Grid) Grid {
 				grid = drawPoint(Point{x: vector.start.x, y: i}, grid)
 			}
 		}
+	} else {
+		// draw diagonals
+		if vector.start.y < vector.end.y && vector.start.x < vector.end.x {
+			log.Printf("1")
+			for i := vector.start.y + 1; i < vector.end.y; i++ {
+				for j := vector.start.x + 1; j < vector.end.x; j++ {
+					if j - vector.start.x == i {
+						grid = drawPoint(Point{x: j, y: i}, grid)
+					}
+				}
+			}
+		} else if vector.start.y < vector.end.y && vector.start.x > vector.end.x {
+			log.Printf("2")
+			for i := vector.start.y + 1; i < vector.end.y; i++ {
+				for j := vector.end.x + 1; j < vector.start.x; j++ {
+					if i + j == vector.start.x {
+						grid = drawPoint(Point{x: j, y: i}, grid)
+					}
+				}
+			}
+		} else if vector.start.y > vector.end.y && vector.start.x < vector.end.x {
+			log.Printf("3")
+			for i := vector.end.y + 1; i < vector.start.y; i++ {
+				for j := vector.start.x + 1; j < vector.end.x; j++ {
+					if j + i == vector.start.x + vector.start.y {
+						grid = drawPoint(Point{x: j, y: i}, grid)
+					}
+				}
+			}
+		} else if vector.start.y > vector.end.y && vector.start.x > vector.end.x {
+			log.Printf("4")
+			for i := vector.end.y + 1; i < vector.start.y; i++ {
+				for j := vector.end.x + 1; j < vector.start.x; j++ {
+					if j - vector.end.x == i {
+						grid = drawPoint(Point{x: j, y: i}, grid)
+					}
+				}
+			}
+		}
 	}
-	printGrid(grid)
-	fmt.Scanln()
+	//printGrid(grid)
+	//fmt.Scanln()
 	return grid
 }
 

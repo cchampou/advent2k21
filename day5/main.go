@@ -8,7 +8,7 @@ import (
 func Run() {
 	input := utils.ReadFileInput("day5/input")
 	parsedData := parseInput(input)
-	vectors := removeDiagonals(parsedData)
+	vectors := parsedData
 	grid := initGrid(vectors)
 	grid = draw(vectors, grid)
 	printGrid(grid)
