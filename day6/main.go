@@ -3,47 +3,34 @@ package day6
 import (
 	"../utils"
 	"fmt"
-	"log"
-	"runtime"
-	"strconv"
 	"strings"
 )
 
 func Run() {
-	PrintMemUsage()
-	data := []byte(strings.Join(strings.Split(utils.ReadFileInput("day6/input")[0], ","), ""))
-	println(data)
-	for i := 0; i < 80; i++ {
-		data = processFish(data)
-		fmt.Print(i)
-		PrintMemUsage()
+	swap := make([]int, 9)
+	data := utils.ConvertLinesToInt(strings.Split(utils.ReadFileInput("day6/input")[0], ","))
+	for _, value := range data {
+		swap[value] = swap[value] + 1
 	}
-	log.Println(len(data))
-}
-
-func processFish(fish []byte) []byte {
-	result := fish
-	for index, value := range fish {
-		intValue, _ := strconv.Atoi(string(value))
-		if intValue == 0 {
-			result = []byte(string(result) + "8")
-			result[index] = 6
-		} else {
-			result[index] = strconv.Itoa(intValue - 1)[0]
+	for day := 0; day < 256; day++ {
+		reset := 0
+		for i := 0; i < 9; i++ {
+			if i == 0 {
+				reset = swap[0]
+			} else {
+				swap[i - 1] = swap[i]
+			}
 		}
+		swap[6] = swap[6] + reset
+		swap[8] = reset
 	}
-	return result
+	fmt.Println(count(swap))
 }
 
-func PrintMemUsage() {
-	var m runtime.MemStats
-	runtime.ReadMemStats(&m)
-	fmt.Printf("Alloc = %v MiB", bToMb(m.Alloc))
-	fmt.Printf("\tTotalAlloc = %v MiB", bToMb(m.TotalAlloc))
-	fmt.Printf("\tSys = %v MiB", bToMb(m.Sys))
-	fmt.Printf("\tNumGC = %v\n", m.NumGC)
-}
-
-func bToMb(b uint64) uint64 {
-	return b / 1024 / 1024
+func count(swap []int) int {
+	score := 0
+	for _, value := range swap {
+		score += value
+	}
+	return score
 }
