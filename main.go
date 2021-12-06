@@ -6,6 +6,7 @@ import (
 	"./day3"
 	"./day4"
 	"./day5"
+	"./day6"
 	"./utils"
 	"log"
 	"os"
@@ -29,6 +30,9 @@ func main() {
 		return
 	case "5":
 		day5.Run()
+		return
+	case "6":
+		day6.Run()
 		return
 	default:
 		log.Fatalln("Unknown day number")
